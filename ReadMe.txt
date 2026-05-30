@@ -1,0 +1,1 @@
+A dummy project to create update and delete the employees. All data will be saved in memory only.
