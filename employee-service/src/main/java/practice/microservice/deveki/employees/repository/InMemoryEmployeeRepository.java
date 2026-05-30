@@ -15,7 +15,7 @@ public class InMemoryEmployeeRepository implements EmployeeRepository {
 
     @Override
     public Employee save(Employee employee) {
-        store.put(employee.empId(), employee);
+        store.put(employee.getEmpId(), employee);
         return employee;
     }
 

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 
@@ -26,11 +27,11 @@ public class EmployeeController {
 
 	@PostMapping
 	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-		log.info("Received request to create employee with id: {}", employee.empId());
+		log.info("Received request to create employee with id: {}", employee.getEmpId());
 
 		Employee saved = repository.save(employee);
 
-		log.info("Employee created successfully with id: {} name: {}", saved.empId(), saved.name());
+		log.info("Employee created successfully with id: {} name: {}", saved.getEmpId(), saved.getName());
 		return ResponseEntity.ok(saved);
 	}
 
@@ -43,11 +44,11 @@ public class EmployeeController {
 		List<Employee> employees = repository.findAll();
 
 		if (city != null) {
-			employees = employees.stream().filter(e -> e.city().equalsIgnoreCase(city)).toList();
+			employees = employees.stream().filter(e -> e.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
 		}
 
 		if (company != null) {
-			employees = employees.stream().filter(e -> e.company().equalsIgnoreCase(company)).toList();
+			employees = employees.stream().filter(e -> e.getCompany().equalsIgnoreCase(company)).collect(Collectors.toList());
 		}
 
 		log.info("Returning {} employees", employees.size());
@@ -77,7 +78,7 @@ public class EmployeeController {
 			return ResponseEntity.notFound().build();
 		}
 
-		Employee employee = new Employee(updated.name(), updated.city(), updated.salary(), updated.company(), empId);
+		Employee employee = new Employee(updated.getName(), updated.getCity(), updated.getSalary(), updated.getCompany(), empId);
 
 		Employee saved = repository.save(employee);
 
